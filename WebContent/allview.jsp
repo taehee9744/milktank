@@ -13,7 +13,7 @@
 	<thead>
 	
 	<tr>
-	<td>글번호</td><td>제목</td><td>사진</td>
+	<td>글번호2</td><td>제목</td><td>사진</td>
 	</tr>
 	
 	</thead>
