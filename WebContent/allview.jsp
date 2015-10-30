@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<table border=1>
+	<table border=12>
 	
 	<thead>
 	
@@ -27,14 +27,14 @@
 	<%-- <td>${i } </td> --%>
 	<td>${allview.p_no }</td>
 	<td><a href="DispatcherServlet?command=content&pno=${allview.p_no }&isdetail=true">${allview.title }</a></td>
-	<td><img src="${allview.path}" width="300" height="200"/></img></td>
+	<td><img src="${allview.path}" width="300" height="2002"/></img></td>
 	</tr>
 	
 	</c:forEach>
 	</tbody>
 	
 	</table>
-<a href="insert.jsp">글쓰기</a>
+<a href="inse3rt.jsp">글쓰기</a>
 <a href="index.jsp">메인으로</a>
 
 </body>
