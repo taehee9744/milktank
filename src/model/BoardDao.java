@@ -116,29 +116,29 @@ public class BoardDao {
 		}
 		return list;
 	}
-//	public BoardVO getBoard(int no) throws SQLException{
-//		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		BoardVO vo = null;
-//		try{
-//			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
-//			String sql = "select u.id, p.title, p.content, m.M_NAME, s.s_name, p.m_no, p.s_no "
-//					+ "from (select * from paper where p_no=?) p, users u, magazine m, section s "
-//					+ "where p.user_no = u.user_no and p.m_no=m.m_no and p.s_no=s.s_no";
-//			pstmt = con.prepareStatement(sql);
-//			pstmt.setInt(1, no);
-//			rs = pstmt.executeQuery();
-//			if(rs.next()){
-//				vo = new BoardVO(no, rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7));
-//			}
-//		}finally{
-//			closeAll(rs, pstmt, con);
-//		}
-//		return vo;
-//	}
 	public BoardVO getBoard(int no) throws SQLException{
+		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		BoardVO vo = null;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql = "select u.id, p.title, p.content, m.M_NAME, s.s_name, p.m_no, p.s_no, p.likes "
+					+ "from (select * from paper where p_no=?) p, users u, magazine m, section s "
+					+ "where p.user_no = u.user_no and p.m_no=m.m_no and p.s_no=s.s_no";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				vo = new BoardVO(no, rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
+			}
+		}finally{
+			closeAll(rs, pstmt, con);
+		}
+		return vo;
+	}
+	/*public BoardVO getBoard(int no) throws SQLException{
 	      ArrayList<BoardVO> list = new ArrayList<BoardVO>();
 	      Connection con = null;
 	      PreparedStatement pstmt = null;
@@ -157,7 +157,7 @@ public class BoardDao {
 	         closeAll(rs, pstmt, con);
 	      }
 	      return vo;
-	   }
+	   }*/
 	public void deleteBoard(int no)throws SQLException{
 		Connection con=null;
 		PreparedStatement pstmt = null;

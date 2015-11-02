@@ -21,14 +21,14 @@ public class BoardService {
 	public void insert(BoardVO vo, int uno) throws SQLException {
 		int p_no = dao.BoardNum();
 		vo.setP_no(p_no);
-		System.out.println(vo.getPath());
+		//System.out.println(vo.getPath());
 		boolean a = vo.getPath().isEmpty();
-		System.out.println(a);
+		//System.out.println(a);
 		if(vo.getPath()!=null){
 			int pic_no = dao.PictureNum();
-			System.out.println(pic_no);
+			//System.out.println(pic_no);
 			vo.setPic_no(pic_no);
-			System.out.println(vo.getPic_no());
+			//System.out.println(vo.getPic_no());
 			dao.PictureInsert(vo);
 		}
 		dao.BoardInsert(vo, uno);
@@ -43,8 +43,8 @@ public class BoardService {
 	}
 	
 	public BoardVO detail(int no) throws SQLException{
-		BoardVO vo = dao.getBoard(no);
-		return vo;
+		return dao.getBoard(no);
+		
 	}
 	
 	public void delete(int no) throws SQLException{
@@ -63,14 +63,14 @@ public class BoardService {
 		like_num += 1;
 		dao.updateLike(p_no, like_num);
 		like_num = likelist(p_no);
-		System.out.println("likeadd:"+like_num);
+		//System.out.println("likeadd:"+like_num);
 		return like_num;
 		
 	}
 //////////////////////////////////////////////////////////////////////////
-	public ReplyVO addArticle(ReplyVO vo, int pno, int uno) throws SQLException {
+	public ReplyVO addArticle(ReplyVO vo, int pno,MemberVO uvo) throws SQLException {
 		// TODO Auto-generated method stub
-		int num = rdao.insertReply(vo, pno, uno);
+		int num = rdao.insertReply(vo, pno, uvo.getUno());
 		return rdao.select(num);
 	}
 

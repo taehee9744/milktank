@@ -44,6 +44,7 @@ function updatePro(){
 	function listResult(){
 		if(httpRequest.readyState==4){
 			if(httpRequest.status==200){
+				
 				//ajax 결과인 json을 받아온다.
 				//결과는 []형태의 배열로 eval()이 이를 배열로 변환해줌. 즉 commentList는 모든 글이 저장된 배열
 				var commentList = eval("(" + httpRequest.responseText + ")");
@@ -75,6 +76,8 @@ function updatePro(){
 				var likeDiv = document.getElementById('like');
 				var like = '<strong>'+comment.like+'</strong>';
 				likeDiv.innerHTML = like;
+				var likeimg = document.getElementById('likeimg');
+				likeimg.src = "img/like2.PNG";
 				
 
 
@@ -129,7 +132,7 @@ function updatePro(){
 			'<input type="button" value="수정" '+
 			'onclick="viewUpdateForm('+comment.num+')"/>'+
 			'<input type="button" value="삭제" '+
-			'onclick="confirmDeletion('+comment.num+')"/>' ;	
+			'onclick="confirmDeletion('+comment.num+')"/>';	
 			
 		//위에서 작성한 내용을 div에 출력한다.
 		commentDiv.innerHTML = html;
@@ -259,9 +262,9 @@ function updatePro(){
 		<tr >
 		<td >${requestScope.content.p_no }</td>
 		<td >${requestScope.content.title }</td>
-		<td >${requestScope.content.section }</td>
-		<td >${requestScope.content.magazine }</td>
-		<td >${requestScope.content.uno }</td>
+		<td >${requestScope.content.s_name }</td>
+		<td >${requestScope.content.m_name }</td>
+		<td >${requestScope.content.u_id }</td>
 		</tr>
 	</tbody>
 </table>
@@ -277,10 +280,12 @@ function updatePro(){
 		</tr>
 	</tbody>
 </table>
-<div id="like"><strong>${requestScope.content.like }</strong></div>
-<input type="button" value="좋아요" onclick="return likeAdd()">
+<div id="like"><strong> ${requestScope.content.like }</strong></div>
+<input type="image" src="img/like.PNG" id="likeimg" value="좋아요" onclick="return likeAdd()"><br/>
+<c:if test="${login.id eq content.u_id }">
 <input type="button" value="수정" onclick="return updatePro()">
 <input type="button" value="삭제" onclick="return deletePro()">
+</c:if>
 <hr>
 <div id="commentList"></div>
 <div id="commentAdd">

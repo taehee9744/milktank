@@ -26,14 +26,26 @@ public class BoardVO {
 		this.path = path;
 		this.pic_no = pic_no;
 	}
-	public BoardVO(int pno,int uno, String title, String content, int magazine, int section, int like){
+	public BoardVO(int p_no,int uno, String title, String content, int magazine, int section, int like){
 		super();
-		this.p_no=pno;
+		this.p_no=p_no;
 		this.uno=uno;
 		this.title=title;
 		this.content=content;
 		this.magazine=magazine;
 		this.section=section;
+		this.like = like;
+	}
+	public BoardVO(int p_no, String u_id, String title, String content, String m_name, String s_name, int magazine, int section, int like) {
+		super();
+		this.p_no = p_no;
+		this.u_id = u_id;
+		this.title = title;
+		this.content = content;
+		this.m_name = m_name;
+		this.s_name = s_name;
+		this.magazine = magazine;
+		this.section = section;
 		this.like = like;
 	}
 	public BoardVO(int p_no, String u_id, String title, String content, String m_name, String s_name, int magazine, int section) {

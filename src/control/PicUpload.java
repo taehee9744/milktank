@@ -79,7 +79,7 @@ public class PicUpload {
 					String fileName = fileItem.getName().substring(idx + 1);
 					try {
 
-						File uploadedFile = new File("C:\\Users\\bit\\Desktop\\javaWork\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\webapps\\img", fileName);
+						File uploadedFile = new File("C:\\img2", fileName);
 						
 						fileItem.write(uploadedFile);
 						vo.setPath(uploadedFile.getAbsolutePath());

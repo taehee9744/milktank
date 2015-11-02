@@ -30,7 +30,7 @@ public class ReplyinsertController implements Controller {
 		MemberVO vo1 = (MemberVO)session.getAttribute("login");
 		
 		try{
-			vo = service.addArticle(vo, pno, vo1.getUno());
+			vo = service.addArticle(vo, pno, vo1);
 			request.setAttribute("a", vo);
 			mv.setPath("article.jsp");
 		}catch(SQLException e){
