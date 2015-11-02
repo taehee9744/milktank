@@ -116,7 +116,7 @@ function updatePro(){
 			}
 		}
 	}
-	
+	//
 	//글 하나를 출력할 div를 생성하여 리턴하는 함수
 	function makeCommentView(comment) {
 		//div를 하나 생성한다.
