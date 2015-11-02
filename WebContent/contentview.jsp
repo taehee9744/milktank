@@ -127,36 +127,45 @@ function updatePro(){
 		
 		//생성한 div에 출력할 내용을 만든다. 작성자/글내용/수정버튼/삭제버튼
 		//수정버튼을 클릭하면 viewUpdateForm()를 호출하고 삭제 버튼을 클릭하면 confirmDeletion()를 호출한다.
+		
+		var a = "${login.id}";
+		var b = comment.uid;
 		var html = '<strong>'+comment.uid+'</strong><br/>'+
-			comment.content.replace(/\n/g, '\n<br/>')+'<br/>'+
-			'<input type="button" value="수정" '+
-			'onclick="viewUpdateForm('+comment.num+')"/>'+
-			'<input type="button" value="삭제" '+
-			'onclick="confirmDeletion('+comment.num+')"/>';	
-			
+			comment.content.replace(/\n/g, '\n<br/>')+'<br/>';
+
+		var html2 = '<input type="button" value="수정" '
+				+ 'onclick="viewUpdateForm(' + comment.num + ')"/>'
+				+ '<input type="button" value="삭제" '
+				+ 'onclick="confirmDeletion(' + comment.num + ')"/>';
+
 		//위에서 작성한 내용을 div에 출력한다.
-		commentDiv.innerHTML = html;
+		if(a==b){
+			commentDiv.innerHTML = html+html2;
+		}else{
+			commentDiv.innerHTML = html;
+		}
+		
 		//div의 css 클래스를 comment로 지정
 		commentDiv.className = "comment";
 		//생성한 div 리턴
 		return commentDiv;
 	}
-	
+
 	//수정폼을 출력하기위해 수정할 글의 원본 내용을 비동기로 요청
-	function viewUpdateForm(num){
-		var param = "command=editForm&r_no="+num;
-		sendRequest("${pageContext.request.contextPath}/DispatcherServlet", 
+	function viewUpdateForm(num) {
+		var param = "command=editForm&r_no=" + num;
+		sendRequest("${pageContext.request.contextPath}/DispatcherServlet",
 				param, viewUpdateForm2, "POST");
 	}
-	
+
 	//수정폼 요청의 결과함수
 	function viewUpdateForm2() {
-		if(httpRequest.readyState==4){
-			if(httpRequest.status==200){
+		if (httpRequest.readyState == 4) {
+			if (httpRequest.status == 200) {
 				//수정 원본 글을 json으로 받아와 eval()함수로 객체로 변환하고 이를 comment에 저장
 				var comment = eval("(" + httpRequest.responseText + ")");
 				//원본 글을 출력하는 div객체를 읽어옴
-				var commentDiv = document.getElementById('c'+comment.num);
+				var commentDiv = document.getElementById('c' + comment.num);
 				//수정폼을 출력하는 div객체를 읽어옴
 				var updateFormDiv = document.getElementById('commentUpdate');
 				//수정폼을 원래의 위치 즉 새글등록 폼 밑에서 잘라내 원본글 div의 자식으로 추가
@@ -166,14 +175,14 @@ function updatePro(){
 				}
 
 				//수정폼에 디폴트로 결과로 가져온 원본글의 내용을 출력한다.
-		 		document.updateForm.id.value = comment.num;
-		 		document.updateForm.content.value = comment.content;
-		 		//수정폼을 보이게 설정
+				document.updateForm.id.value = comment.num;
+				document.updateForm.content.value = comment.content;
+				//수정폼을 보이게 설정
 				updateFormDiv.style.display = '';
 			}
 		}
 	}
-	
+
 	//수정취소버튼을 누르면 호출되는 함수
 	//원본글의 자식으로 되어있는 수정폼 div 객체를 잘라내 원래 위치로 되돌리고 다시 안보이게 설정
 	function cancelUpdate() {
@@ -182,22 +191,22 @@ function updatePro(){
 		updateFormDiv.parentNode.removeChild(updateFormDiv);
 		document.documentElement.appendChild(updateFormDiv);
 	}
-	
+
 	//수정버튼을 누르면 호출되는 함수로 수정완료를 수행
-	function updateComment(){
+	function updateComment() {
 		//수정폼의 내용 즉 글번호, 이름, 내용을 파라메터로 지정하여 컨트롤러에 수정완료를 요청
 		var num = document.updateForm.id.value;
 		var content = encodeURIComponent(document.updateForm.content.value);
-		var params = "command=edit&r_no="+num+"&content="+content;
-		sendRequest("${pageContext.request.contextPath}/DispatcherServlet", 
+		var params = "command=edit&r_no=" + num + "&content=" + content;
+		sendRequest("${pageContext.request.contextPath}/DispatcherServlet",
 				params, updateResult, "POST");
 	}
-	
+
 	//수정완료요청의 결과함수
-	function updateResult(){
-		if(httpRequest.readyState==4){
+	function updateResult() {
+		if (httpRequest.readyState == 4) {
 			alert("httpRequest.readyState=4");
-			if(httpRequest.status==200){
+			if (httpRequest.status == 200) {
 				alert("httpRequest.status=200");
 				alert(httpRequest.responseText);
 				//수정된 글을 json으로 받음. 이를 eval()로 객체로 변환하여 comment에 저장
@@ -207,44 +216,42 @@ function updatePro(){
 				//함수 makeCommentView()를 호출하여 수정된 글 하나를 출력할 div를 생성하여 글 내용을 출력함
 				var newCommentDiv = makeCommentView(comment);
 				//수정되기 전의 글내용을 출력했던 div를 새로 변경된 글내용을 출력한div로 대체
-				var oldCommentDiv = 
-				        document.getElementById('c'+comment.num);
+				var oldCommentDiv = document.getElementById('c' + comment.num);
 				listDiv.replaceChild(newCommentDiv, oldCommentDiv);
 			}
 		}
 	}
-	
+
 	//삭제버튼을 누루면 호출되는 함수로 삭제의사를 물어본다. 확인을 누르면 del()을 호출
-	function confirmDeletion(num){
+	function confirmDeletion(num) {
 		var flag = confirm("정말 삭제하겠습니까?");
-		if(flag){
+		if (flag) {
 			del(num);
-		}else{
+		} else {
 			alert("취소되었습니다.");
 		}
 	}
-	
+
 	//컨트롤러에 글 하나 삭제 요청. 파라메터로 글번호 전달
-	function del(num){
-		var params = "command=del&r_no="+num;
-		sendRequest("${pageContext.request.contextPath}/DispatcherServlet", 
+	function del(num) {
+		var params = "command=del&r_no=" + num;
+		sendRequest("${pageContext.request.contextPath}/DispatcherServlet",
 				params, delResult, "POST");
 	}
-	
+
 	//삭제요청 결과 함수
-	function delResult(){
-		if(httpRequest.readyState==4){
-			if(httpRequest.status==200){
+	function delResult() {
+		if (httpRequest.readyState == 4) {
+			if (httpRequest.status == 200) {
 				//삭제된 글의 글번호를 json형태로 받아옴
 				var obj = eval("(" + httpRequest.responseText + ")");
 				var num = obj.num;
 				//하나의 글을 출력하는 div의 id가 c글번호로 되어 있으므로 삭제된 글의 번호로 해당 글이 출력된 div를 찾아 삭제한다.
-				var delDiv = document.getElementById('c'+num);
+				var delDiv = document.getElementById('c' + num);
 				delDiv.parentNode.removeChild(delDiv);
 			}
 		}
 	}
-	
 </script>
 
 </head>
