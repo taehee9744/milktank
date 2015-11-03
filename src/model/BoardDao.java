@@ -209,6 +209,26 @@ public class BoardDao {
 		}
 		return like_num;
 	}
+	public boolean getlikeState(int p_no, int u_no) throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean likestate = false;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql = "select user_no, p_no from likes where user_no=? and p_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, u_no);
+			pstmt.setInt(2, p_no);
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				likestate = true;
+			}
+		}finally{
+			closeAll(rs, pstmt, con);
+		}
+		return likestate;
+	}
 	public void updateLike(int p_no, int like_num) throws SQLException{
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -217,6 +237,34 @@ public class BoardDao {
 			String sql = "update paper set likes=? where p_no=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, like_num);
+			pstmt.setInt(2, p_no);
+			pstmt.executeUpdate();
+		}finally{
+			closeAll(pstmt, con);
+		}
+	}
+	public void likeaddState(int p_no, int u_no) throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql = "insert into likes(user_no, p_no) values(?, ?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, u_no);
+			pstmt.setInt(2, p_no);
+			pstmt.executeUpdate();
+		}finally{
+			closeAll(pstmt, con);
+		}
+	}
+	public void likesubState(int p_no, int u_no) throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql = "delete from likes where user_no=? and p_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, u_no);
 			pstmt.setInt(2, p_no);
 			pstmt.executeUpdate();
 		}finally{

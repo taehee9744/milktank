@@ -21,9 +21,6 @@ public class BoardService {
 	public void insert(BoardVO vo, int uno) throws SQLException {
 		int p_no = dao.BoardNum();
 		vo.setP_no(p_no);
-		//System.out.println(vo.getPath());
-		boolean a = vo.getPath().isEmpty();
-		//System.out.println(a);
 		if(vo.getPath()!=null){
 			int pic_no = dao.PictureNum();
 			//System.out.println(pic_no);
@@ -54,19 +51,60 @@ public class BoardService {
 	public void update(BoardVO vo ) throws SQLException{
 		dao.updateBoard(vo);
 	}
-	public int likelist(int p_no) throws SQLException{
+	/*public boolean getlikeState(int p_no, int u_no) throws SQLException{
+		return dao.getlikeState(p_no, u_no);
+	}*/
+	public BoardVO likelist(int p_no, int u_no) throws SQLException{
 		int like_num = dao.getLike(p_no);
-		return like_num;
+		boolean likestate = dao.getlikeState(p_no, u_no);
+		BoardVO vo = new BoardVO(like_num, likestate );
+		return vo;
 	}
-	public int likeadd(int p_no) throws SQLException{
-		int like_num = likelist(p_no);
-		like_num += 1;
-		dao.updateLike(p_no, like_num);
-		like_num = likelist(p_no);
-		//System.out.println("likeadd:"+like_num);
-		return like_num;
+	public BoardVO likeaddsub(int p_no, int u_no) throws SQLException{
+		boolean likestate = dao.getlikeState(p_no, u_no);
+		System.out.println("boardservice likestate:"+likestate);
+		int like_num;
+		BoardVO vo = null;
+		if(likestate){
+			//현재 게시물의 좋아요 수를 추출하고 1을 빼서 업데이트 시킴
+			like_num = dao.getLike(p_no);
+			like_num -= 1;
+			dao.updateLike(p_no, like_num);
+			
+			//likes 테이블에 해당 유저와 해당 게시물 번호에 대한 정보 삭제(좋아요 취소)
+			dao.likesubState(p_no, u_no);
+			
+			//좋아요 수를 업데이트한 결과를 추출, 좋아요상태 추출
+			like_num = dao.getLike(p_no);
+			//boolean likestate = dao.getlikeState(p_no, u_no);
+			likestate = dao.getlikeState(p_no, u_no);
+			vo = new BoardVO(like_num, likestate );
+			
+		}else{
+			//현재 게시물의 좋아요 수를 추출하고 1을 더해서 업데이트 시킴
+			like_num = dao.getLike(p_no);
+			like_num += 1;
+			dao.updateLike(p_no, like_num);
+			
+			//likes 테이블에 해당 유저와 해당 게시물 번호를 입력하여 좋아요를 눌렀다는 상태를 입력
+			dao.likeaddState(p_no, u_no);
+			
+			//좋아요 수를 업데이트한 결과를 추출, 좋아요상태 추출
+			like_num = dao.getLike(p_no);
+			//boolean likestate = dao.getlikeState(p_no, u_no);
+			likestate = dao.getlikeState(p_no, u_no);
+			vo = new BoardVO(like_num, likestate );
+			
+		}
+		
+		
+
+		return vo;
 		
 	}
+	/*public void likeaddstate(int p_no, int u_no) throws SQLException{
+		dao.likeaddState(p_no, u_no);
+	}*/
 	public BoardVO get_Ppath(int p_no) throws SQLException{
 		return dao.get_Ppath(p_no);
 	}

@@ -5,8 +5,11 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.BoardService;
+import model.BoardVO;
+import model.MemberVO;
 
 public class LikelistController implements Controller{
 
@@ -15,10 +18,14 @@ public class LikelistController implements Controller{
 		int p_no = Integer.parseInt(request.getParameter("p_no"));
 		BoardService service = BoardService.getInstance();
 		ModelAndView mv = new ModelAndView();
-		int like = 0;
+		
+		HttpSession session = request.getSession(false);
+		MemberVO vo1 = (MemberVO)session.getAttribute("login");
+		
+		BoardVO vo = null;
 		try{
-			like = service.likelist(p_no);
-			request.setAttribute("like", like);
+			vo = service.likelist(p_no, vo1.getUno());
+			request.setAttribute("like", vo);
 			mv.setPath("like.jsp");
 		}catch(SQLException e){
 			e.printStackTrace();

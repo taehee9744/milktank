@@ -13,6 +13,7 @@ public class BoardVO {
 	private int pic_no;
 	private String u_id;
 	private int like;
+	private boolean likestate;
 	public BoardVO(){}
 	public BoardVO(String title, String content, int p_no, int magazine, int section, int uno, String path,
 			int pic_no) {
@@ -89,6 +90,11 @@ public class BoardVO {
 		this.s_name = s_name;
 		this.u_id = u_id;
 	}
+	public BoardVO(int like, boolean likestate) {
+		super();
+		this.like = like;
+		this.likestate = likestate;
+	}
 	public int getP_no() {
 		return p_no;
 	}
@@ -164,6 +170,12 @@ public class BoardVO {
 	public BoardVO(String path) {
 		super();
 		this.path = path;
+	}
+	public boolean isLikestate() {
+		return likestate;
+	}
+	public void setLikestate(boolean likestate) {
+		this.likestate = likestate;
 	}
 	@Override
 	public String toString() {

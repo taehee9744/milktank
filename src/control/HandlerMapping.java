@@ -37,8 +37,8 @@ public class HandlerMapping {
 			ct = new ReplyupdateController();
 		}else if(command.equals("del")){
 			ct = new ReplydeleteController();
-		}else if(command.equals("likeadd")){
-			ct = new LikeaddController();
+		}else if(command.equals("likeaddsub")){
+			ct = new LikeaddsubController();
 		}else if(command.equals("likelist")){
 			ct = new LikelistController();
 		}else if(command.equals("idcheck")){

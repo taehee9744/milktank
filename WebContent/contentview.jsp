@@ -31,7 +31,7 @@ function updatePro(){
 //ajax로 controller에 articleList요청
 	
 	window.onload=function(){
-		list();
+		likeList();
 		
 	}
 	function list(){
@@ -61,14 +61,14 @@ function updatePro(){
 		}
 	}
 
-	function likeAdd(){
-		var params = "command=likeadd&p_no="+${requestScope.content.p_no };
+	function like(){
+		var params = "command=likeaddsub&p_no="+${requestScope.content.p_no };
 		sendRequest("${pageContext.request.contextPath}/DispatcherServlet", params ,likeResult,"POST");
 	}
-	function likeList(){
+	 function likeList(){
 		var params = "command=likelist&p_no="+${requestScope.content.p_no };
 		sendRequest("${pageContext.request.contextPath}/DispatcherServlet", params ,likeResult,"POST");
-	}
+	} 
 	function likeResult(){
 		if(httpRequest.readyState==4){
 			if(httpRequest.status==200){
@@ -76,8 +76,17 @@ function updatePro(){
 				var likeDiv = document.getElementById('like');
 				var like = '<strong>'+comment.like+'</strong>';
 				likeDiv.innerHTML = like;
+				//alert(comment.likestate);
 				var likeimg = document.getElementById('likeimg');
-				likeimg.src = "img/like2.PNG";
+				
+				if(comment.likestate=="true"){
+					//alert("1"+comment.likestate);
+					likeimg.src = "img/like2.PNG";
+				}else{
+					//alert("2"+comment.likestate);
+					likeimg.src = "img/like1.PNG";
+				}
+				 
 				
 
 
@@ -283,12 +292,14 @@ function updatePro(){
 	</thead>
 	<tbody>
 		<tr>
-		<td width="400" height="400"><pre>${requestScope.content.content }</pre></td>
+		<td width="400" height="400">
+		<img src="/milktank/ViewController?pno=${requestScope.content.p_no }" width="300" height="200"/></img>
+		<pre>${requestScope.content.content }</pre></td>
 		</tr>
 	</tbody>
 </table>
-<div id="like"><strong> ${requestScope.content.like }</strong></div>
-<input type="image" src="img/like.PNG" id="likeimg" value="좋아요" onclick="return likeAdd()"><br/>
+<div id="like"><strong> <%-- ${requestScope.content.like } --%></strong></div>
+<input type="image" src="" id="likeimg" value="like1" onclick="return like()"><br/>
 <c:if test="${login.id eq content.u_id }">
 <input type="button" value="수정" onclick="return updatePro()">
 <input type="button" value="삭제" onclick="return deletePro()">
