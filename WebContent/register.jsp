@@ -6,14 +6,29 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-1.10.1.js"></script>
-<script>
+<script type="text/javascript"  src="${pageContext.request.contextPath}/httpRequest.js"></script>
+<script type="text/javascript">
 	function idcheck(){
 		var userid = document.getElementById("userId").value;
-
-		if(userid==""){
-			alert("아이디를입력해주세요.");
-		} 
+		var param = "command=idcheck&id="+userid;
+		sendRequest("${pageContext.request.contextPath}/DispatcherServlet", 
+				param, idcheckResult, "POST");		
 	}
+	function idcheckResult(){
+		if(httpRequest.readyState==4){
+			if(httpRequest.status==200){
+				var idcheck = eval("(" + httpRequest.responseText + ")");
+				if(idcheck.check){
+					alert("사용가능한 아이디입니다.");
+				}else{
+					alert("이미 사용중인 아이디입니다.");
+				}
+				
+			}
+		}
+	}
+	
+	
 </script>
 </head>
 <body>
@@ -29,7 +44,7 @@
 			<th bgcolor=#FFFFE0><li>아이디</li></th>
 			<td>
 				<input type="text" name="id" id="userId">
-				<input type="button" name="button" value="확인" onclick="idcheck()")>
+				<input type="button" name="button" value="확인" onclick="idcheck()">
 			</td>
 		</tr>
 		<tr align="left">

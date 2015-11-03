@@ -21,6 +21,11 @@ public class MemberService {
 		return vo;
 	}
 	
+	public boolean idcheck(String id) throws SQLException{
+		System.out.println("memberservice:"+id);
+		return dao.idcheck(id);
+	}
+	
 	
 
 }

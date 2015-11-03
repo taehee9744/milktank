@@ -41,6 +41,8 @@ public class HandlerMapping {
 			ct = new LikeaddController();
 		}else if(command.equals("likelist")){
 			ct = new LikelistController();
+		}else if(command.equals("idcheck")){
+			ct = new IdcheckController();
 		}
 		
 		return ct;

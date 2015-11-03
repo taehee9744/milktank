@@ -94,5 +94,29 @@ public class MemberDao {
 			}
 		return uno;
 	}
+	
+	public boolean idcheck(String id) throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean check = true;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql = "select id from users where id=?";
+			System.out.println("memberdao sql:"+sql);
+			System.out.println("memberdao:"+id);
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			System.out.println("memberdao rs:"+rs);
+			while(rs.next()){
+				check = false;
+			}
+			
+		}finally{
+			closeAll(rs, pstmt, con);
+		}
+		return check;
+	}
 
 }
