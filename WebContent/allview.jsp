@@ -13,7 +13,7 @@
 	<thead>
 	
 	<tr>
-	<td>글번호1</td><td>제목</td><td>사진</td>
+	<td>글번호</td><td>제목</td><td>사진</td>
 	</tr>
 	
 	</thead>
@@ -27,7 +27,7 @@
 	<%-- <td>${i } </td> --%>
 	<td>${allview.p_no }</td>
 	<td><a href="DispatcherServlet?command=content&pno=${allview.p_no }&isdetail=true">${allview.title }</a></td>
-	<td><img src="${allview.path}" width="300" height="200"/></img></td>
+	<td><img src="/milktank/ViewController?pno=${allview.p_no }" width="300" height="200"/></img></td>
 	</tr>
 	
 	</c:forEach>

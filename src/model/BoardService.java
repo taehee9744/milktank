@@ -67,6 +67,9 @@ public class BoardService {
 		return like_num;
 		
 	}
+	public BoardVO get_Ppath(int p_no) throws SQLException{
+		return dao.get_Ppath(p_no);
+	}
 //////////////////////////////////////////////////////////////////////////
 	public ReplyVO addArticle(ReplyVO vo, int pno,MemberVO uvo) throws SQLException {
 		// TODO Auto-generated method stub

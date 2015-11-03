@@ -223,4 +223,23 @@ public class BoardDao {
 			closeAll(pstmt, con);
 		}
 	}
+	public BoardVO get_Ppath(int p_no) throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		BoardVO vo = null;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql = "select pic.pic_path from (select * from paper where p_no=?) p, picture pic where p.pic_no = pic.pic_no";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, p_no);
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				vo = new BoardVO(rs.getString(1));
+			}
+		}finally{
+			closeAll(rs, pstmt, con);
+		}		
+		return vo;
+	}
 }

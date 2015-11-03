@@ -161,6 +161,10 @@ public class BoardVO {
 	public void setLike(int like) {
 		this.like = like;
 	}
+	public BoardVO(String path) {
+		super();
+		this.path = path;
+	}
 	@Override
 	public String toString() {
 		return "BoardVO [title=" + title + ", content=" + content + ", p_no=" + p_no + ", magazine=" + magazine

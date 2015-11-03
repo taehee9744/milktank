@@ -22,5 +22,14 @@
     <servlet-name>DispatcherServlet</servlet-name>
     <url-pattern>/DispatcherServlet</url-pattern>
   </servlet-mapping>
-
+  <servlet>
+    <description></description>
+    <display-name>ViewController</display-name>
+    <servlet-name>ViewController</servlet-name>
+    <servlet-class>control.ViewController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewController</servlet-name>
+    <url-pattern>/ViewController</url-pattern>
+  </servlet-mapping>
 </web-app>
