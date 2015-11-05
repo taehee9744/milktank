@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MemberService {
 	private static MemberService instance = new MemberService();
@@ -34,9 +35,9 @@ public class MemberService {
 		return dao.friendCheck(r_id);
 	}
 	
-	public MemberVO friendconfirm(String r_id) throws SQLException{
-		
-		return dao.friendconfirm(r_id);
+	public ArrayList<MemberVO> friendconfirm(String r_id) throws SQLException{
+		ArrayList<MemberVO> list = dao.friendconfirm(r_id);
+		return list;
 	}
 	public void friendapprove(String s_id,String r_id) throws SQLException{
 		dao.friendapprove(s_id,r_id);
@@ -47,5 +48,9 @@ public class MemberService {
 	
 	public void deletefriendrequest(String s_id, String r_id)throws SQLException{
 		dao.deletefriendrequest(s_id,r_id);
+	}
+	public void friendreject(String s_id, String r_id) throws SQLException{
+		dao.friendreject(s_id,r_id);
+		
 	}
 }

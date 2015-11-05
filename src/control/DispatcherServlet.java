@@ -40,11 +40,12 @@ public class DispatcherServlet extends HttpServlet {
 		String command = request.getParameter("command");
 		String rno = request.getParameter("r_no");
 		
-		System.out.println("command:"+command+" rno:"+rno);
+		System.out.println("command :"+command+" rno :"+rno);
 
 		if (command.equals("insert")) {
 			PicUpload pu = new PicUpload(request);
 			vo = pu.upload();
+			
 			ct = mapping.create(command, vo);
 
 			ModelAndView mv = ct.execute(request, response);

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import config.OracleConfig;
 
@@ -155,7 +156,8 @@ public class MemberDao {
 		return fcheck;
 	}
 	
-	public MemberVO friendconfirm(String r_id) throws SQLException{
+	public ArrayList<MemberVO> friendconfirm(String r_id) throws SQLException{
+		ArrayList<MemberVO> list = new ArrayList<MemberVO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -166,14 +168,14 @@ public class MemberDao {
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, r_id);
 			rs=pstmt.executeQuery();
-			if(rs.next()){
-				vo=new MemberVO(rs.getString(1));
+			while(rs.next()){
+				list.add(new MemberVO(rs.getString(1)));
 			}
 		}finally{
 			closeAll(rs,pstmt,con);
 		}
 		
-		return vo;
+		return list;
 	}
 	public void friendapprove(String s_id, String r_id)throws SQLException{
 		Connection con = null;
@@ -227,6 +229,21 @@ public class MemberDao {
 		}finally{
 			closeAll(pstmt,con);
 		}
+	}
+	public void friendreject(String s_id, String r_id) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql ="delete from requestfriend where s_id=? and r_id=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, s_id);
+			pstmt.setString(2, r_id);
+			pstmt.executeQuery();
+		}finally{
+			closeAll(pstmt,con);
+		}
+		
 	}
 
 }
