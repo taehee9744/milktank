@@ -43,6 +43,12 @@ public class HandlerMapping {
 			ct = new LikelistController();
 		}else if(command.equals("idcheck")){
 			ct = new IdcheckController();
+		}else if(command.equals("myinfo")){
+			ct = new MyInfoController();
+		}else if(command.equals("magazine")){
+			ct = new MagazineController();
+		}else if(command.equals("makeMagazine")){
+			ct = new makeMagazineController();
 		}
 		
 		return ct;

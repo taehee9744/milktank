@@ -95,6 +95,10 @@ public class BoardVO {
 		this.like = like;
 		this.likestate = likestate;
 	}
+	public BoardVO(String m_name) {
+		super();
+		this.m_name = m_name;
+	}
 	public int getP_no() {
 		return p_no;
 	}
@@ -166,10 +170,6 @@ public class BoardVO {
 	}
 	public void setLike(int like) {
 		this.like = like;
-	}
-	public BoardVO(String path) {
-		super();
-		this.path = path;
 	}
 	public boolean isLikestate() {
 		return likestate;

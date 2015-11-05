@@ -76,7 +76,6 @@ public class BoardService {
 			
 			//좋아요 수를 업데이트한 결과를 추출, 좋아요상태 추출
 			like_num = dao.getLike(p_no);
-			//boolean likestate = dao.getlikeState(p_no, u_no);
 			likestate = dao.getlikeState(p_no, u_no);
 			vo = new BoardVO(like_num, likestate );
 			
@@ -91,22 +90,23 @@ public class BoardService {
 			
 			//좋아요 수를 업데이트한 결과를 추출, 좋아요상태 추출
 			like_num = dao.getLike(p_no);
-			//boolean likestate = dao.getlikeState(p_no, u_no);
 			likestate = dao.getlikeState(p_no, u_no);
 			vo = new BoardVO(like_num, likestate );
-			
 		}
-		
-		
-
 		return vo;
-		
 	}
 	/*public void likeaddstate(int p_no, int u_no) throws SQLException{
 		dao.likeaddState(p_no, u_no);
 	}*/
 	public BoardVO get_Ppath(int p_no) throws SQLException{
 		return dao.get_Ppath(p_no);
+	}
+	public ArrayList<BoardVO> get_Magazine(int u_no) throws SQLException{
+		return dao.get_Magazine(u_no);
+	}
+	public void makeMagazine(String m_name, int u_no) throws SQLException{
+		int no = dao.magazineNum();
+		dao.makeMagazine(m_name, u_no, no);
 	}
 //////////////////////////////////////////////////////////////////////////
 	public ReplyVO addArticle(ReplyVO vo, int pno,MemberVO uvo) throws SQLException {

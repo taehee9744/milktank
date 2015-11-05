@@ -290,4 +290,56 @@ public class BoardDao {
 		}		
 		return vo;
 	}
+	public ArrayList<BoardVO> get_Magazine(int u_no) throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql = "select m_name from magazine where user_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, u_no);
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+				list.add(new BoardVO(rs.getString(1)));
+			}
+		}finally{
+			closeAll(rs, pstmt, con);
+		}
+		return list;
+	}
+	public int magazineNum() throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int no = 0;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql = "select m_no.nextval from dual";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+				no = rs.getInt(1);
+			}
+		}finally{
+			closeAll(rs, pstmt, con);
+		}
+		return no;
+	}
+	public void makeMagazine(String m_name, int u_no, int no) throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql = "insert into magazine(m_name, m_no, user_no) values(?, ?, ?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, m_name);
+			pstmt.setInt(2, no);
+			pstmt.setInt(3, u_no);
+			pstmt.executeUpdate();
+		}finally{
+			closeAll(pstmt, con);
+		}
+	}
 }

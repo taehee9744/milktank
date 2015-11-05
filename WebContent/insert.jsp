@@ -64,7 +64,15 @@ function content_submit(){
 Section<select name="section">
 		<option value="1">sports</option>
 		<option value="2">fashion</option>
-		<option value="3">movie</option></select>
+		<option value="3">movie</option>
+		<option value="4">travle</option>
+		<option value="5">food</option>
+		<option value="6">game</option>
+		<option value="7">it</option>
+		<option value="8">car</option>
+		<option value="9">love</option>
+		<option value="10">tv</option>
+		</select>
 Magazine<select name="magazine"><option value="1">ffuck</option></select><br>
 제목 : <input type="text" name="title"><br>
 파일 : <input type="file" name="file"/><br/>

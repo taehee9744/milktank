@@ -27,7 +27,6 @@ function logout(){
 %>
 <a href="register.jsp">회원가입</a>
 <a href="login.jsp">로그인</a>
-<a href="DispatcherServlet?command=allview">전체글보기</a>
 
 <%
 	}else{
@@ -35,6 +34,7 @@ function logout(){
 <%=vo.getId() %>님 로그인 중 입니다.<br>
 <a href="insert.jsp">글쓰기</a>
 <a href="DispatcherServlet?command=allview">전체글보기</a>
+<a href="DispatcherServlet?command=myinfo">내정보</a>
 <input type="button" value="로그아웃" onclick="logout()">
 <%
 	}
