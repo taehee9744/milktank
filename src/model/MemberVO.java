@@ -71,6 +71,9 @@ public class MemberVO {
 		this.pass = pass;
 	}
 	public MemberVO(){}
+	public MemberVO(String id){
+		this.id = id;
+	}
 	
 	
 }

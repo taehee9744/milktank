@@ -118,5 +118,115 @@ public class MemberDao {
 		}
 		return check;
 	}
+	public void requestFriend(String r_id, String s_id) throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql ="insert into requestfriend (s_id,r_id)values (?,?)";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, s_id);
+			pstmt.setString(2, r_id);
+			pstmt.executeQuery();
+		}finally{
+			closeAll(pstmt,con);
+		}
+	}
+	
+	public boolean friendCheck(String r_id) throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean fcheck=false;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql ="select * from requestfriend where r_id=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, r_id);
+			rs=pstmt.executeQuery();
+			if(rs.next()){
+				fcheck=true;
+			}else{
+				fcheck=false;
+			}
+		}finally{
+			closeAll(rs,pstmt,con);
+		}
+		return fcheck;
+	}
+	
+	public MemberVO friendconfirm(String r_id) throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		MemberVO vo =null;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql ="select s_id from requestfriend where r_id=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, r_id);
+			rs=pstmt.executeQuery();
+			if(rs.next()){
+				vo=new MemberVO(rs.getString(1));
+			}
+		}finally{
+			closeAll(rs,pstmt,con);
+		}
+		
+		return vo;
+	}
+	public void friendapprove(String s_id, String r_id)throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql="delete from requestfriend where s_id=? and r_id=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, s_id);
+			pstmt.setString(2, r_id);
+			pstmt.executeQuery();
+		}finally{
+			closeAll(pstmt,con);
+		}
+	}
+	
+	@SuppressWarnings("resource")
+	public void addfriend(String s_id, String r_id) throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql="insert into friend (u_id,f_id) values(?,?)";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, s_id);
+			pstmt.setString(2, r_id);
+			pstmt.executeQuery();
+			
+			String sql2="insert into friend(u_id,f_id) values(?,?)";
+			pstmt=con.prepareStatement(sql2);
+			pstmt.setString(1, r_id);
+			pstmt.setString(2, s_id);
+			pstmt.executeQuery();
+			
+			
+		}finally{
+			closeAll(pstmt,con);
+		}
+	}
+	
+	public void deletefriendrequest(String s_id, String r_id)throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try{
+			con = DriverManager.getConnection(OracleConfig.URL, OracleConfig.USER, OracleConfig.PASS);
+			String sql="delete from requestfriend where s_id=? and r_id=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, s_id);
+			pstmt.setString(2, r_id);
+			pstmt.executeQuery();
+		}finally{
+			closeAll(pstmt,con);
+		}
+	}
 
 }

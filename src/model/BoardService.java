@@ -136,5 +136,4 @@ public class BoardService {
 		// TODO Auto-generated method stub
 		return rdao.select(num);
 	}
-	
 }

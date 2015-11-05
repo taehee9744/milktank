@@ -26,6 +26,26 @@ public class MemberService {
 		return dao.idcheck(id);
 	}
 	
+	public void requestFriend(String r_id, String s_id) throws SQLException {
+		dao.requestFriend(r_id,s_id);
+	}
 	
-
+	public boolean friendCheck(String r_id) throws SQLException{
+		return dao.friendCheck(r_id);
+	}
+	
+	public MemberVO friendconfirm(String r_id) throws SQLException{
+		
+		return dao.friendconfirm(r_id);
+	}
+	public void friendapprove(String s_id,String r_id) throws SQLException{
+		dao.friendapprove(s_id,r_id);
+	}
+	public void addfriend(String s_id, String r_id) throws SQLException{
+		dao.addfriend(s_id,r_id);
+	}
+	
+	public void deletefriendrequest(String s_id, String r_id)throws SQLException{
+		dao.deletefriendrequest(s_id,r_id);
+	}
 }
